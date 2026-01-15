@@ -1,27 +1,14 @@
 export class User {
-  private firstName: string;
-  private lastName: string;
-  private whatsapp: number;
-  private active: boolean;
-  private updatedAt: Date;
-
   constructor(
-    public readonly id: number,
-    firstName: string,
-    lastName: string,
-    whatsapp: number,
-    active: boolean,
-    public readonly createdAt: Date
+    readonly id: number,
+    readonly firstName: string,
+    readonly lastName: string,
+    readonly whatsapp: number,
+    readonly active: boolean,
+    readonly createdAt: Date = new Date(),
+    readonly updatedAt: Date = new Date()
   ) {
-    if (!firstName || !lastName) {
-      throw new Error("User name is required");
-    }
-
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.whatsapp = whatsapp;
-    this.active = active;
-    this.updatedAt = createdAt;
+    if (!firstName || !lastName) throw new Error("User name is required");
   }
 
   getFullName(): string {
