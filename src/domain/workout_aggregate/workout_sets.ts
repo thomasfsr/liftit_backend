@@ -1,27 +1,25 @@
 import { WorkoutSet } from "../workout_set/workout_set";
 
-export class WorkoutSession {
+export class WorkoutSets {
   private sets: WorkoutSet[] = [];
   constructor(
-    readonly id: number,
     readonly userId: number,
     readonly performedAt: Date,
+    readonly id?: number,
   ) {
     if (performedAt > new Date()) {
       throw new Error("Workout cannot be in the future");
     }
   }
 
-  addSet(id: number, exercise: string, reps: number, weight: number) {
-    if (this.sets.some(s => s.id === id)) {
-      throw new Error("WorkoutSet with same id already exists");
-    }
-
-    const set = new WorkoutSet(id, exercise, reps, weight);
+  addSet(exercise: string, reps: number, weight: number) {
+    const set = new WorkoutSet(exercise, reps, weight);
     this.sets.push(set);
   }
-
+  loadSets(sets: WorkoutSet[]) {
+    this.sets = sets;
+  }
   getSets(): readonly WorkoutSet[] {
-    return this.sets;
+    return Object.freeze([...this.sets]);
   }
 }

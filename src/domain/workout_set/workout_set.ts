@@ -1,9 +1,9 @@
 export class WorkoutSet {
   constructor(
-    readonly id: number,
     readonly exercise: string,
     readonly reps: number,
     readonly weight: number,
+    readonly id?: number,
     readonly createdAt: Date = new Date(),
     readonly updatedAt: Date = new Date()
   ) {
