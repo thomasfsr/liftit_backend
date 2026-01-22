@@ -9,7 +9,6 @@ export class DrizzleWorkoutSetsRepository implements WorkoutSetsRepository {
     await db.transaction(async (tx) => {
       await tx.insert(workoutSets).values({
         userId: sets.userId,
-        performedAt: sets.performedAt,
       });
 
       for (const set of sets.getSets()) {
