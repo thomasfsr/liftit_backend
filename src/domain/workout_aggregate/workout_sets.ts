@@ -4,13 +4,8 @@ export class WorkoutSets {
   private sets: WorkoutSet[] = [];
   constructor(
     readonly userId: number,
-    readonly performedAt: Date,
     readonly id?: number,
-  ) {
-    if (performedAt > new Date()) {
-      throw new Error("Workout cannot be in the future");
-    }
-  }
+  ) {}
 
   addSet(exercise: string, reps: number, weight: number) {
     const set = new WorkoutSet(exercise, reps, weight);

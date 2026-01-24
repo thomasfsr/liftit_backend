@@ -4,24 +4,21 @@ import { workoutSets } from "../db/schema";
 import { WorkoutSetsRepository } from "../../application/repositories/workout_sets_repository";
 import { WorkoutSets } from "../../domain/workout_aggregate/workout_sets";
 
-export class DrizzleWorkoutSetsRepository implements WorkoutSetsRepository {
-  async save(sets: WorkoutSets): Promise<void> {
-    await db.transaction(async (tx) => {
-      await tx.insert(workoutSets).values({
-        userId: sets.userId,
-      });
+export class DrizzleWorkoutSetsRepository
+  implements WorkoutSetsRepository
+{
+  async save(aggregate: WorkoutSets): Promise<void> {
+    const rows = aggregate.getSets().map((set) => ({
+      userId: aggregate.userId,
+      exercise: set.exercise,
+      reps: set.reps,
+      weight: set.weight,
+      createdAt: aggregate.performedAt,
+    }));
 
-      for (const set of sets.getSets()) {
-        await tx.insert(workoutSets).values({
-          id: set.id,
-          sessionId: sets.id,
-          exercise: set.exercise,
-          reps: set.reps,
-          weight: set.weight,
-        });
-      }
-    });
+    await db.insert(workoutSets).values(rows);
   }
+}
 
   async findById(id: number): Promise<WorkoutSession | null> {
     // later
