@@ -3,8 +3,8 @@ import { WorkoutSet } from "../workout_set/workout_set";
 export class WorkoutSets {
   private sets: WorkoutSet[] = [];
   constructor(
-    readonly userId: number,
-    readonly id?: number,
+    readonly userId: string,
+    readonly id: string = crypto.randomUUID().toString(),
   ) {}
 
   addSet(exercise: string, reps: number, weight: number) {
