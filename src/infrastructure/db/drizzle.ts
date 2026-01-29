@@ -9,8 +9,9 @@ if (!connectionString) {
 }
 
 const client = postgres(connectionString, {
-  max: 10,          // connection pool size
+  max: 50,
   idle_timeout: 20,
 });
 
 export const db = drizzle(client, { schema });
+export type DrizzleClient = typeof db;

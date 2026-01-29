@@ -23,12 +23,21 @@ export class SaveUserUsecase implements Usecase<
     return new SaveUserUsecase(userRepository);
   }
 
-  execute({
+  public async execute({
     firstName,
     lastName,
     email,
     phone,
   }: SaveUserInputDto): Promise<SaveUserOutputDto> {
     const aUser = User.create(firstName, lastName, email, phone);
+    await this.userRepo.save(aUser);
+    const output = this.presentOutput(aUser);
+    return output;
+  }
+  private presentOutput(user: User): SaveUserOutputDto {
+    const output: SaveUserOutputDto = {
+      id: user.id,
+    };
+    return output;
   }
 }

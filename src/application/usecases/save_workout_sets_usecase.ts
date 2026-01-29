@@ -1,19 +1,52 @@
-import { WorkoutSetsRepository } from "../repositories/workout_sets_repository";
 import { WorkoutSets } from "../../domain/workout_aggregate/workout_sets";
+import { WorkoutSetsRepository } from "../repositories/workout_sets_repository";
 import { Usecase } from "./usecase";
-import { SaveUserInputDto, SaveUserOutputDto } from "./save_user_usercase";
 
-export type SaveWorkoutSetsInputDto {
-}
+export type CreateWorkoutSetsInputDto = {
+  userId: string;
+  sets: {
+    exercise: string;
+    reps: number;
+    weight: number;
+  }[];
+};
 
-export type SaveWorkoutSetsOutputDto {
+export type CreateWorkoutSetsOutputDto = {
+  id: string;
+  userId: string;
+  totalSets: number;
+};
 
-}
+export class CreateWorkoutSetsUsecase implements Usecase<
+  CreateWorkoutSetsInputDto,
+  CreateWorkoutSetsOutputDto
+> {
+  constructor(private readonly workoutSetsRepo: WorkoutSetsRepository) {}
 
-export class SaveWorkoutSetsUseCase implements Usecase<SaveUserInputDto, SaveUserOutputDto> {
-  constructor(private readonly repo: WorkoutSetsRepository) {}
+  public static create(workoutSetsRepository: WorkoutSetsRepository) {
+    return new CreateWorkoutSetsUsecase(workoutSetsRepository);
+  }
 
-  async execute(aggregate: WorkoutSets): Promise<void> {
-    await this.repo.save(aggregate);
+  public async execute({
+    userId,
+    sets,
+  }: CreateWorkoutSetsInputDto): Promise<CreateWorkoutSetsOutputDto> {
+    const aggregate = WorkoutSets.create(userId);
+
+    for (const set of sets) {
+      aggregate.addSet(set.exercise, set.reps, set.weight);
+    }
+
+    await this.workoutSetsRepo.save(aggregate);
+
+    return this.presentOutput(aggregate);
+  }
+
+  private presentOutput(aggregate: WorkoutSets): CreateWorkoutSetsOutputDto {
+    return {
+      id: aggregate.id,
+      userId: aggregate.userId,
+      totalSets: aggregate.getSets().length,
+    };
   }
 }
