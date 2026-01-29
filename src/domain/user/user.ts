@@ -1,18 +1,98 @@
+export type UserProps = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: number;
+  active: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 export class User {
-  constructor(
-    readonly id: string = crypto.randomUUID().toString(),
-    readonly firstName: string,
-    readonly lastName: string,
-    readonly email: string,
-    readonly phone: number,
-    readonly active: boolean,
-    readonly createdAt: Date = new Date(),
-    readonly updatedAt: Date = new Date(),
-  ) {
-    if (!firstName.trim() || !lastName.trim())
-      throw new Error("User name is required");
+  private constructor(private props: UserProps) {
+    this.validate();
   }
-  getFullName() {
-    return `${this.firstName} ${this.lastName}`;
+
+  public static create(
+    firstName: string,
+    lastName: string,
+    email: string,
+    phone: number,
+  ): User {
+    return new User({
+      id: crypto.randomUUID(),
+      firstName,
+      lastName,
+      email,
+      phone,
+      active: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+  }
+
+  public static with(props: UserProps): User {
+    return new User(props);
+  }
+
+  private validate() {
+    if (!this.props.firstName.trim() || !this.props.lastName.trim()) {
+      throw new Error("User name is required");
+    }
+
+    if (!this.props.email.trim()) {
+      throw new Error("Email is required");
+    }
+  }
+
+  public get id() {
+    return this.props.id;
+  }
+
+  public get firstName() {
+    return this.props.firstName;
+  }
+
+  public get lastName() {
+    return this.props.lastName;
+  }
+
+  public get email() {
+    return this.props.email;
+  }
+
+  public get phone() {
+    return this.props.phone;
+  }
+
+  public get active() {
+    return this.props.active;
+  }
+
+  public get createdAt() {
+    return this.props.createdAt;
+  }
+
+  public get updatedAt() {
+    return this.props.updatedAt;
+  }
+
+  public getFullName() {
+    return `${this.props.firstName} ${this.props.lastName}`;
+  }
+
+  public deactivate() {
+    this.props.active = false;
+    this.touch();
+  }
+
+  public activate() {
+    this.props.active = true;
+    this.touch();
+  }
+
+  private touch() {
+    this.props.updatedAt = new Date();
   }
 }
