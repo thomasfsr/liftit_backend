@@ -3,8 +3,6 @@ import { users } from "../db/schema";
 import { User } from "../../domain/user/user";
 import { UserRepository } from "../../application/repositories/user_repository";
 
-// import { DrizzleClient } from "../database/drizzle_client"; // your db instance
-
 export class UserRepositoryDrizzle implements UserRepository {
   private constructor(private readonly db: DrizzleClient) {}
 
