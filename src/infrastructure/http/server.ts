@@ -1,22 +1,10 @@
-import { Elysia, t } from "elysia";
+import { Elysia } from "elysia";
 import { swagger } from "@elysiajs/swagger";
 import { db } from "../db/drizzle";
 import { UserRepositoryDrizzle } from "../repositories/UserRepositoryDrizzle";
 import { SaveUserUsecase } from "../../application/usecases/save_user_usercase";
 import { SaveUserInputDto } from "../../application/usecases/save_user_usercase";
-
-export const SaveUserInputSchema = t.Object({
-  firstName: t.String({
-    minLength: 1,
-  }),
-  lastName: t.String({
-    minLength: 1,
-  }),
-  email: t.String({
-    format: "email",
-  }),
-  phone: t.String(),
-});
+import { SaveUserInputSchema } from "./Schemas";
 
 new Elysia()
   .use(
