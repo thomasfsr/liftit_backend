@@ -4,9 +4,9 @@ import { db } from "../db/drizzle";
 import { UserRepositoryDrizzle } from "../repositories/UserRepositoryDrizzle";
 import { SaveUserUsecase } from "../../application/usecases/save_user_usercase";
 import { SaveUserInputDto } from "../../application/usecases/save_user_usercase";
-import { SaveUserInputSchema } from "./Schemas";
+import { SaveUserInputSchema } from "./schemas";
 
-new Elysia()
+const app = new Elysia()
   .use(
     swagger({
       path: "/swagger",
@@ -32,3 +32,8 @@ new Elysia()
     },
   )
   .listen(3000);
+
+console.log(
+  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,
+);
+export default app;
