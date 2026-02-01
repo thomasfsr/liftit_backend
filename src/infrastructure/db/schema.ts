@@ -1,3 +1,4 @@
+import { varchar } from "drizzle-orm/mysql-core";
 import {
   pgTable,
   integer,
@@ -24,7 +25,7 @@ export const users = pgTable("users", {
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
   email: text("email").notNull().unique(),
-  phone: integer("phone").notNull(),
+  phone: text("phone").notNull(),
   active: boolean("active").notNull().default(true),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull(),

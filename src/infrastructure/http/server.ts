@@ -15,10 +15,10 @@ export const SaveUserInputSchema = t.Object({
   email: t.String({
     format: "email",
   }),
-  phone: t.Number(),
+  phone: t.String(),
 });
 
-const app = new Elysia()
+new Elysia()
   .use(
     swagger({
       path: "/swagger",

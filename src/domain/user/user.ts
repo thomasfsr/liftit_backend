@@ -3,7 +3,7 @@ export type UserProps = {
   firstName: string;
   lastName: string;
   email: string;
-  phone: number;
+  phone: string;
   active: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -18,7 +18,7 @@ export class User {
     firstName: string,
     lastName: string,
     email: string,
-    phone: number,
+    phone: string,
   ): User {
     return new User({
       id: crypto.randomUUID(),

@@ -6,7 +6,7 @@ export type SaveUserInputDto = {
   firstName: string;
   lastName: string;
   email: string;
-  phone: number;
+  phone: string;
 };
 
 export type SaveUserOutputDto = {
