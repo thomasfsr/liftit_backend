@@ -1,0 +1,3 @@
+To generate te schema in the database based on drizzle.config.ts 
+bunx drizzle-kit generate
+bunx drizzle-kit migrate

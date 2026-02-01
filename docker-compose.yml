@@ -1,7 +1,6 @@
 services:
-  liftit_postgres:
+  liftit_pg:
     image: postgres:16-alpine
-    container_name: postgres
     restart: unless-stopped
     
     env_file: 
@@ -15,9 +14,8 @@ services:
     ports:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
 
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      # - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    # volumes:
+      # - liftit_pg_data:/var/lib/postgresql/data
 
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
@@ -25,5 +23,5 @@ services:
       timeout: 5s
       retries: 5
 
-volumes:
-  postgres_data:
+# volumes:
+#   liftit_pg_data:
