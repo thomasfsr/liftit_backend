@@ -2,6 +2,7 @@ import { DrizzleClient } from "../db/drizzle";
 import { users } from "../db/schema";
 import { User } from "../../domain/user/user";
 import { UserRepository } from "../../application/repositories/user_repository";
+import { eq } from "drizzle-orm";
 
 export class UserRepositoryDrizzle implements UserRepository {
   private constructor(private readonly db: DrizzleClient) {}
@@ -21,5 +22,27 @@ export class UserRepositoryDrizzle implements UserRepository {
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     });
+  }
+
+  public async findByEmail(email: string): Promise<User | null> {
+    const result = await this.db
+      .select()
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1);
+
+    if (result.length === 0) {
+      return null;
+    }
+
+    const userData = result[0];
+
+    // Reconstruct the User domain entity from the database row
+    return User.create(
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      email: userData.email,
+      phone: userData.phone,
+    );
   }
 }
