@@ -29,9 +29,13 @@ export class SaveUserUsecase implements Usecase<
     email,
     phone,
   }: SaveUserInputDto): Promise<SaveUserOutputDto> {
-    const aUser = User.create(firstName, lastName, email, phone);
-    await this.userRepo.save(aUser);
-    const output = this.presentOutput(aUser);
+    const existingUser = await this.userRepo.findByEmail(email);
+    if (existingUser) {
+      throw console.error("Existing email.");
+    }
+    const user = User.create(firstName, lastName, email, phone);
+    await this.userRepo.save(user);
+    const output = this.presentOutput(user);
     return output;
   }
   private presentOutput(user: User): SaveUserOutputDto {
