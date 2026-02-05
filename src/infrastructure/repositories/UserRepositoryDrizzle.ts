@@ -38,11 +38,6 @@ export class UserRepositoryDrizzle implements UserRepository {
     const userData = result[0];
 
     // Reconstruct the User domain entity from the database row
-    return User.create(
-      firstName: userData.firstName,
-      lastName: userData.lastName,
-      email: userData.email,
-      phone: userData.phone,
-    );
+    return { email: userData.email, id: userData.id };
   }
 }

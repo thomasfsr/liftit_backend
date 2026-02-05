@@ -4,6 +4,7 @@ export type UserProps = {
   lastName: string;
   email: string;
   phone: string;
+  hashedPassword: string;
   active: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -19,6 +20,7 @@ export class User {
     lastName: string,
     email: string,
     phone: string,
+    hashedPassword: string,
   ): User {
     return new User({
       id: crypto.randomUUID(),
@@ -26,6 +28,7 @@ export class User {
       lastName,
       email,
       phone,
+      hashedPassword,
       active: true,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -43,6 +46,9 @@ export class User {
 
     if (!this.props.email.trim()) {
       throw new Error("Email is required");
+    }
+    if (!this.props.hashedPassword.trim()) {
+      throw new Error("Hashed password is required");
     }
   }
 

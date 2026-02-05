@@ -6,7 +6,14 @@ export type FindUserByEmailInputDto = {
   email: string;
 };
 
-export type FindUserByEmailOutputDto = { id: string; email: string } | void;
+export type FindUserByEmailOutputDto = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  active: boolean;
+} | void;
 
 export class FindUserByEmailUsecase implements Usecase<
   FindUserByEmailInputDto,
@@ -25,9 +32,14 @@ export class FindUserByEmailUsecase implements Usecase<
   }
 
   private presentOutput(user: User): FindUserByEmailOutputDto {
-    return {
+    const output: FindUserByEmailOutputDto = {
       id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
       email: user.email,
+      phone: user.phone,
+      active: user.active,
     };
+    return output;
   }
 }
