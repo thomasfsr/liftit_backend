@@ -12,15 +12,17 @@ export class UserRepositoryDrizzle implements UserRepository {
   }
 
   public async save(user: User): Promise<void> {
+    const userData = user.toPersistence();
     await this.db.insert(users).values({
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      phone: user.phone,
-      active: user.active,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
+      id: userData.id,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      email: userData.email,
+      phone: userData.phone,
+      hashedPassword: userData.hashedPassword,
+      active: userData.active,
+      createdAt: userData.createdAt,
+      updatedAt: userData.updatedAt,
     });
   }
 
@@ -36,8 +38,17 @@ export class UserRepositoryDrizzle implements UserRepository {
     }
 
     const userData = result[0];
-
-    // Reconstruct the User domain entity from the database row
-    return { email: userData.email, id: userData.id };
+    const user = User.with({
+      email: userData.email,
+      id: userData.id,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      phone: userData.phone,
+      hashedPassword: userData.hashedPassword,
+      active: userData.active,
+      createdAt: userData.createdAt,
+      updatedAt: userData.updatedAt,
+    });
+    return user;
   }
 }

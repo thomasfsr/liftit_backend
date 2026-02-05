@@ -35,6 +35,11 @@ export class User {
     });
   }
 
+  public toPersistence(): UserProps {
+    return {
+      ...this.props,
+    };
+  }
   public static with(props: UserProps): User {
     return new User(props);
   }
