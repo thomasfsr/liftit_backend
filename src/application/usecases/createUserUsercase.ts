@@ -8,7 +8,7 @@ export class EmailAlreadyExistsError extends Error {
   }
 }
 
-export type SaveUserInputDto = {
+export type CreateUserInputDto = {
   firstName: string;
   lastName: string;
   email: string;
@@ -16,13 +16,13 @@ export type SaveUserInputDto = {
   password: string;
 };
 
-export type SaveUserOutputDto = {
+export type CreateUserOutputDto = {
   id: string;
 };
 
-export class SaveUserUsecase implements Usecase<
-  SaveUserInputDto,
-  SaveUserOutputDto
+export class CreateUserUsecase implements Usecase<
+  CreateUserInputDto,
+  CreateUserOutputDto
 > {
   constructor(
     private readonly userRepo: UserRepository,
@@ -33,10 +33,12 @@ export class SaveUserUsecase implements Usecase<
     userRepo: UserRepository,
     passwordHasher: PasswordHasher,
   ) {
-    return new SaveUserUsecase(userRepo, passwordHasher);
+    return new CreateUserUsecase(userRepo, passwordHasher);
   }
 
-  public async execute(input: SaveUserInputDto): Promise<SaveUserOutputDto> {
+  public async execute(
+    input: CreateUserInputDto,
+  ): Promise<CreateUserOutputDto> {
     const existingUser = await this.userRepo.findByEmail(input.email);
     if (existingUser) {
       throw new EmailAlreadyExistsError(input.email);
@@ -53,8 +55,8 @@ export class SaveUserUsecase implements Usecase<
     const output = this.presentOutput(user);
     return output;
   }
-  private presentOutput(user: User): SaveUserOutputDto {
-    const output: SaveUserOutputDto = {
+  private presentOutput(user: User): CreateUserOutputDto {
+    const output: CreateUserOutputDto = {
       id: user.id,
     };
     return output;

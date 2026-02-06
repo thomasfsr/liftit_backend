@@ -2,9 +2,11 @@ import { Elysia } from "elysia";
 import { swagger } from "@elysiajs/swagger";
 import { db } from "../db/drizzle";
 import { UserRepositoryDrizzle } from "../repositories/UserRepositoryDrizzle";
-import { SaveUserUsecase } from "../../application/usecases/saveUserUsercase";
-import { SaveUserInputDto } from "../../application/usecases/saveUserUsercase";
-import { SaveUserInputSchema } from "./schemas";
+import {
+  CreateUserUsecase,
+  CreateUserInputDto,
+} from "../../application/usecases/createUserUsercase";
+import { CreateUserInputSchema } from "./schemas";
 import { BcryptPasswordHasher } from "../utils/passwordHasher";
 const app = new Elysia()
   .use(
@@ -21,15 +23,15 @@ const app = new Elysia()
   .post(
     "/user",
     async ({ body }) => {
-      const input: SaveUserInputDto = body;
+      const input: CreateUserInputDto = body;
       const repo = UserRepositoryDrizzle.create(db);
       const hasher = new BcryptPasswordHasher();
-      const usecase = SaveUserUsecase.create(repo, hasher);
+      const usecase = CreateUserUsecase.create(repo, hasher);
       const result = await usecase.execute(input);
       return result;
     },
     {
-      body: SaveUserInputSchema,
+      body: CreateUserInputSchema,
     },
   )
   .listen(3000);
@@ -37,4 +39,3 @@ const app = new Elysia()
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,
 );
-// export default app;

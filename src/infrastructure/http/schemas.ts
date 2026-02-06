@@ -1,6 +1,6 @@
 import { t } from "elysia";
 
-export const SaveUserInputSchema = t.Object({
+export const CreateUserInputSchema = t.Object({
   firstName: t.String({
     minLength: 1,
   }),
