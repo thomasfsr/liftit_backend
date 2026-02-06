@@ -1,3 +1,8 @@
 To generate te schema in the database based on drizzle.config.ts 
 bunx drizzle-kit generate
 bunx drizzle-kit migrate
+to run:
+bun run dev 
+(the path was set in package.json)
+sudo systemctl start docker to initialize docker since I disabled autostart using:
+sudo systemctl disable docker.

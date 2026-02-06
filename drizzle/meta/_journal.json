@@ -15,6 +15,13 @@
       "when": 1769985672076,
       "tag": "0001_volatile_invisible_woman",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1770387681486,
+      "tag": "0002_misty_master_chief",
+      "breakpoints": true
     }
   ]
 }
