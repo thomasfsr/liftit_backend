@@ -27,19 +27,18 @@ export class CreateWorkoutSetsUsecase implements Usecase<
     return new CreateWorkoutSetsUsecase(workoutSetsRepository);
   }
 
-  public async execute({
-    userId,
-    sets,
-  }: CreateWorkoutSetsInputDto): Promise<CreateWorkoutSetsOutputDto> {
-    const aggregate = WorkoutSets.create(userId);
+  public async execute(
+    input: CreateWorkoutSetsInputDto,
+  ): Promise<CreateWorkoutSetsOutputDto> {
+    const aggregateSets = WorkoutSets.create(input.userId);
 
-    for (const set of sets) {
-      aggregate.addSet(set.exercise, set.reps, set.weight);
+    for (const set of input.sets) {
+      aggregateSets.addSet(set.exercise, set.reps, set.weight);
     }
 
-    await this.workoutSetsRepo.save(aggregate);
+    await this.workoutSetsRepo.save(aggregateSets);
 
-    return this.presentOutput(aggregate);
+    return this.presentOutput(aggregateSets);
   }
 
   private presentOutput(aggregate: WorkoutSets): CreateWorkoutSetsOutputDto {
