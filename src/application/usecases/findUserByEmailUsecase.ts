@@ -1,4 +1,4 @@
-import { UserRepository } from "../repositories/user_repository";
+import { UserRepository } from "../repositories/userRepository";
 import { User } from "../../domain/user/user";
 import { Usecase } from "./usecase";
 

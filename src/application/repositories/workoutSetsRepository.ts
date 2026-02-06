@@ -1,4 +1,4 @@
-import { WorkoutSets } from "../../domain/workout_aggregate/workout_sets";
+import { WorkoutSets } from "../../domain/workoutAggregate/workoutSets";
 
 export interface WorkoutSetsRepository {
   save(aggregate: WorkoutSets): Promise<void>;

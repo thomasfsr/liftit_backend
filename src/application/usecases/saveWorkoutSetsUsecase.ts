@@ -1,5 +1,5 @@
-import { WorkoutSets } from "../../domain/workout_aggregate/workout_sets";
-import { WorkoutSetsRepository } from "../repositories/workout_sets_repository";
+import { WorkoutSets } from "../../domain/workoutAggregate/workoutSets";
+import { WorkoutSetsRepository } from "../repositories/workoutSetsRepository";
 import { Usecase } from "./usecase";
 
 export type CreateWorkoutSetsInputDto = {

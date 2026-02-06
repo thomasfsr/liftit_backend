@@ -2,10 +2,10 @@ import { Elysia } from "elysia";
 import { swagger } from "@elysiajs/swagger";
 import { db } from "../db/drizzle";
 import { UserRepositoryDrizzle } from "../repositories/UserRepositoryDrizzle";
-import { SaveUserUsecase } from "../../application/usecases/save_user_usercase";
-import { SaveUserInputDto } from "../../application/usecases/save_user_usercase";
+import { SaveUserUsecase } from "../../application/usecases/saveUserUsercase";
+import { SaveUserInputDto } from "../../application/usecases/saveUserUsercase";
 import { SaveUserInputSchema } from "./schemas";
-
+import { BcryptPasswordHasher } from "../utils/passwordHasher";
 const app = new Elysia()
   .use(
     swagger({
@@ -23,7 +23,8 @@ const app = new Elysia()
     async ({ body }) => {
       const input: SaveUserInputDto = body;
       const repo = UserRepositoryDrizzle.create(db);
-      const usecase = SaveUserUsecase.create(repo);
+      const hasher = new BcryptPasswordHasher();
+      const usecase = SaveUserUsecase.create(repo, hasher);
       const result = await usecase.execute(input);
       return result;
     },

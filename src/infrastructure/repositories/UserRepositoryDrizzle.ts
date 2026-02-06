@@ -1,7 +1,7 @@
 import { DrizzleClient } from "../db/drizzle";
 import { users } from "../db/schema";
 import { User } from "../../domain/user/user";
-import { UserRepository } from "../../application/repositories/user_repository";
+import { UserRepository } from "../../application/repositories/userRepository";
 import { eq } from "drizzle-orm";
 
 export class UserRepositoryDrizzle implements UserRepository {

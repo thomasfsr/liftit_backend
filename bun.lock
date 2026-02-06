@@ -6,6 +6,7 @@
       "name": "liftit_backend",
       "dependencies": {
         "@elysiajs/swagger": "^1.3.1",
+        "bcryptjs": "^3.0.3",
         "drizzle-orm": "^0.45.1",
         "elysia": "latest",
         "postgres": "^3.4.7",
@@ -94,6 +95,8 @@
     "@types/node": ["@types/node@25.0.3", "", { "dependencies": { "undici-types": "~7.16.0" } }, "sha512-W609buLVRVmeW693xKfzHeIV6nJGGz98uCPfeXI1ELMLXVeKYZ9m15fAMSaUPBHYLGFsVRcMmSCksQOrZV9BYA=="],
 
     "@unhead/schema": ["@unhead/schema@1.11.20", "", { "dependencies": { "hookable": "^5.5.3", "zhead": "^2.2.4" } }, "sha512-0zWykKAaJdm+/Y7yi/Yds20PrUK7XabLe9c3IRcjnwYmSWY6z0Cr19VIs3ozCj8P+GhR+/TI2mwtGlueCEYouA=="],
+
+    "bcryptjs": ["bcryptjs@3.0.3", "", { "bin": { "bcrypt": "bin/bcrypt" } }, "sha512-GlF5wPWnSa/X5LKM1o0wz0suXIINz1iHRLvTS+sLyi7XPbe5ycmYI3DlZqVGZZtDgl4DmasFg7gOB3JYbphV5g=="],
 
     "buffer-from": ["buffer-from@1.1.2", "", {}, "sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ=="],
 
