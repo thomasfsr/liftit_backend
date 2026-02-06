@@ -11,4 +11,7 @@ export const SaveUserInputSchema = t.Object({
     format: "email",
   }),
   phone: t.String(),
+  password: t.String({
+    minLength: 8,
+  }),
 });
