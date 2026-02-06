@@ -1,7 +1,7 @@
 import { DrizzleClient } from "../db/drizzle";
 import { workoutSets } from "../db/schema";
-import { WorkoutSets } from "../../domain/workout_aggregate/workout_sets";
-import { WorkoutSetsRepository } from "../../application/repositories/workout_sets_repository";
+import { WorkoutSets } from "../../domain/workoutAggregate/workoutSets";
+import { WorkoutSetsRepository } from "../../application/repositories/workoutSetsRepository";
 
 export class WorkoutSetsRepositoryDrizzle implements WorkoutSetsRepository {
   private constructor(private readonly db: DrizzleClient) {}
