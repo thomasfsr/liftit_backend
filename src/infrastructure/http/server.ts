@@ -6,6 +6,7 @@ import {
   CreateUserUsecase,
   CreateUserInputDto,
 } from "../../application/usecases/createUserUsercase";
+import { FindUserByIdUsecase } from "../../application/usecases/checkUserByIdUsecase";
 import { CreateUserInputSchema } from "./schemas";
 import { BcryptPasswordHasher } from "../utils/passwordHasher";
 const app = new Elysia()
@@ -24,6 +25,7 @@ const app = new Elysia()
     "/user",
     async ({ body }) => {
       const input: CreateUserInputDto = body;
+    const exists = 
       const repo = UserRepositoryDrizzle.create(db);
       const hasher = new BcryptPasswordHasher();
       const usecase = CreateUserUsecase.create(repo, hasher);

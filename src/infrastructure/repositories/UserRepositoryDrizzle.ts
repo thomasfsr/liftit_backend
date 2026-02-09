@@ -52,6 +52,31 @@ export class UserRepositoryDrizzle implements UserRepository {
     return user;
   }
 
+  public async findById(id: string): Promise<User | null> {
+    const result = await this.db
+      .select()
+      .from(users)
+      .where(eq(users.email, id))
+      .limit(1);
+
+    if (result.length === 0) {
+      return null;
+    }
+
+    const userData = result[0];
+    const user = User.with({
+      id: userData.id,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      email: userData.email,
+      phone: userData.phone,
+      hashedPassword: userData.hashedPassword,
+      active: userData.active,
+      createdAt: userData.createdAt,
+      updatedAt: userData.updatedAt,
+    });
+    return user;
+  }
   public async existsById(id: string): Promise<boolean> {
     const result = await this.db
       .select()
