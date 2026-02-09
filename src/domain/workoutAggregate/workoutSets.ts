@@ -1,4 +1,4 @@
-import { WorkoutSet } from "../workout_set/workout_set";
+import { WorkoutSet } from "../workoutSet/workoutSet";
 
 export type WorkoutSetsProps = {
   id: string;
