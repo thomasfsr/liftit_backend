@@ -56,7 +56,7 @@ export class UserRepositoryDrizzle implements UserRepository {
     const result = await this.db
       .select()
       .from(users)
-      .where(eq(users.email, id))
+      .where(eq(users.id, id))
       .limit(1);
 
     if (result.length === 0) {
