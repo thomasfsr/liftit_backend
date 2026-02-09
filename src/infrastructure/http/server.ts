@@ -6,8 +6,14 @@ import {
   CreateUserUsecase,
   CreateUserInputDto,
 } from "../../application/usecases/createUserUsercase";
+import {
+  CreateWorkoutSetsUsecase,
+  CreateWorkoutSetsInputDto,
+} from "../../application/usecases/createWorkoutSetsUsecase";
 import { CreateUserInputSchema } from "./schemas";
+import { CreateWorkoutSetsInputSchema } from "./schemas";
 import { BcryptPasswordHasher } from "../utils/passwordHasher";
+import { WorkoutSetsRepositoryDrizzle } from "../repositories/WorkoutSetsRepositoryDrizzle";
 const app = new Elysia()
   .use(
     swagger({
@@ -32,6 +38,20 @@ const app = new Elysia()
     },
     {
       body: CreateUserInputSchema,
+    },
+  )
+  .post(
+    "/workoutsets",
+    async ({ body }) => {
+      const input: CreateWorkoutSetsInputDto = body;
+      const repo = WorkoutSetsRepositoryDrizzle.create(db);
+      const userRepo = UserRepositoryDrizzle.create(db);
+      const usercase = CreateWorkoutSetsUsecase.create(repo, userRepo);
+      const result = usercase.execute(input);
+      return result;
+    },
+    {
+      body: CreateWorkoutSetsInputSchema,
     },
   )
   .listen(3000);

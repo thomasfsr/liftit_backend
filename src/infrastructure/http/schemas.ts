@@ -15,3 +15,28 @@ export const CreateUserInputSchema = t.Object({
     minLength: 8,
   }),
 });
+
+export const CreateWorkoutSetsInputSchema = t.Object({
+  userId: t.String({
+    minLength: 1,
+  }),
+
+  sets: t.Array(
+    t.Object({
+      exercise: t.String({
+        minLength: 1,
+      }),
+
+      reps: t.Number({
+        minimum: 1,
+      }),
+
+      weight: t.Number({
+        minimum: 0,
+      }),
+    }),
+    {
+      minItems: 1,
+    },
+  ),
+});
