@@ -8,10 +8,6 @@ import {
 } from "../../application/usecases/createUserUsercase";
 import { CreateUserInputSchema } from "./schemas";
 import { BcryptPasswordHasher } from "../utils/passwordHasher";
-import {
-  FindUserByEmailInputDto,
-  FindUserByEmailUsecase,
-} from "../../application/usecases/findUserByEmailUsecase";
 const app = new Elysia()
   .use(
     swagger({
@@ -29,12 +25,6 @@ const app = new Elysia()
     async ({ body }) => {
       const input: CreateUserInputDto = body;
       const repo = UserRepositoryDrizzle.create(db);
-      const findUser = new FindUserByEmailUsecase(repo);
-      const emailInput: FindUserByEmailInputDto = { email: input.email };
-      const exists = await findUser.execute(emailInput);
-      if (exists) {
-        throw Error("Email already exists.");
-      }
       const hasher = new BcryptPasswordHasher();
       const usecase = CreateUserUsecase.create(repo, hasher);
       const result = await usecase.execute(input);
