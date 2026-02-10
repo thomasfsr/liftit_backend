@@ -1,6 +1,6 @@
 import { WorkoutSet } from "../workoutSet/workoutSet";
 
-export type WorkoutSetsProps = {
+export type WorkoutProps = {
   id: string;
   userId: string;
   sets: WorkoutSet[];
@@ -8,14 +8,14 @@ export type WorkoutSetsProps = {
   updatedAt: Date;
 };
 
-export class WorkoutSets {
-  private constructor(private props: WorkoutSetsProps) {
+export class Workout {
+  private constructor(private props: WorkoutProps) {
     this.validate();
   }
 
   // Factory for new aggregate
-  public static create(userId: string): WorkoutSets {
-    return new WorkoutSets({
+  public static create(userId: string): Workout {
+    return new Workout({
       id: crypto.randomUUID(),
       userId,
       sets: [],
@@ -25,8 +25,8 @@ export class WorkoutSets {
   }
 
   // Rehydrate from persistence
-  public static with(props: WorkoutSetsProps): WorkoutSets {
-    return new WorkoutSets(props);
+  public static with(props: WorkoutProps): Workout {
+    return new Workout(props);
   }
 
   private validate() {
@@ -52,7 +52,7 @@ export class WorkoutSets {
     return this.props.updatedAt;
   }
 
-  public getSets(): readonly WorkoutSet[] {
+  public get(): readonly WorkoutSet[] {
     return Object.freeze([...this.props.sets]);
   }
 
@@ -63,7 +63,7 @@ export class WorkoutSets {
     this.touch();
   }
 
-  public loadSets(sets: WorkoutSet[]) {
+  public load(sets: WorkoutSet[]) {
     this.props.sets = [...sets];
     this.touch();
   }
