@@ -5,9 +5,3 @@ export interface UserRepository {
   findByEmail(email: string): Promise<User | null>;
   findById(email: string): Promise<User | null>;
 }
-
-export interface PasswordHasher {
-  hash(password: string): Promise<string>;
-}
-
-// existsById(id: string): Promise<boolean>;

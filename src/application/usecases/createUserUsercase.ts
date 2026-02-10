@@ -1,4 +1,5 @@
-import { UserRepository, PasswordHasher } from "../repositories/userRepository";
+import { UserRepository } from "../repositories/userRepository";
+import { PasswordHasher } from "../services/passwordHasher";
 import { User } from "../../domain/user/user";
 import { Usecase } from "./usecase";
 
