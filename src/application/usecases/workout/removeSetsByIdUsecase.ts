@@ -1,26 +1,24 @@
-import { Workout } from "../../domain/workout/workout";
-import { WorkoutRepository } from "../repositories/workoutRepository";
-import { UserRepository } from "../repositories/userRepository";
-import { Usecase } from "./usecase";
+import { Workout } from "../../../domain/workout/workout";
+import { WorkoutRepository } from "../../repositories/workoutRepository";
+import { UserRepository } from "../../repositories/userRepository";
+import { Usecase } from "../usecase";
 
-export type CreateWorkoutInputDto = {
-  userId: string;
-  sets: {
-    exercise: string;
-    reps: number;
-    weight: number;
+export type removeSetsByIdInputDto = {
+  workoutId: string;
+  setsId: {
+    id: string;
   }[];
 };
 
-export type CreateWorkoutOutputDto = {
-  id: string;
-  userId: string;
-  total: number;
+export type removeSetsByIdOutputDto = {
+  excludedSetsId: {
+    id: string;
+  }[];
 };
 
-export class CreateWorkoutUsecase implements Usecase<
-  CreateWorkoutInputDto,
-  CreateWorkoutOutputDto
+export class RemoveSetsByIdUsecase implements Usecase<
+  removeSetsByIdInputDto,
+  removeSetsByIdOutputDto
 > {
   constructor(
     private readonly workoutRepo: WorkoutRepository,
@@ -31,12 +29,12 @@ export class CreateWorkoutUsecase implements Usecase<
     workoutRepository: WorkoutRepository,
     userRepo: UserRepository,
   ) {
-    return new CreateWorkoutUsecase(workoutRepository, userRepo);
+    return new RemoveSetsByIdUsecase(workoutRepository, userRepo);
   }
 
   public async execute(
-    input: CreateWorkoutInputDto,
-  ): Promise<CreateWorkoutOutputDto> {
+    input: removeSetsByIdInputDto,
+  ): Promise<removeSetsByIdOutputDto> {
     const user = await this.userRepo.findById(input.userId);
     if (!user) {
       throw Error("User does not exist");
@@ -52,7 +50,7 @@ export class CreateWorkoutUsecase implements Usecase<
     return this.presentOutput(aggregate);
   }
 
-  private presentOutput(aggregate: Workout): CreateWorkoutOutputDto {
+  private presentOutput(aggregate: Workout): removeSetsByIdOutputDto {
     return {
       id: aggregate.id,
       userId: aggregate.userId,

@@ -1,4 +1,3 @@
-import { varchar } from "drizzle-orm/mysql-core";
 import {
   pgTable,
   integer,
@@ -10,6 +9,7 @@ import {
 
 export const workoutSets = pgTable("workout_sets", {
   id: uuid("id").primaryKey(),
+  workoutId: uuid("workout_id").notNull(),
   userId: uuid("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),

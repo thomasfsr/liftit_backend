@@ -1,6 +1,5 @@
 import { UserRepository } from "../repositories/userRepository";
-import { User } from "../../domain/user/user";
-import { Usecase } from "./usecase";
+import { Usecase } from "../usecase";
 
 export type checkUserIdInputDto = {
   id: string;

@@ -1,19 +1,20 @@
 import { DrizzleClient } from "../db/drizzle";
 import { workoutSets } from "../db/schema";
-import { WorkoutSets } from "../../domain/workoutAggregate/workoutSets";
-import { WorkoutSetsRepository } from "../../application/repositories/workoutSetsRepository";
+import { Workout } from "../../domain/workout/workout";
+import { WorkoutRepository } from "../../application/repositories/workoutRepository";
 
-export class WorkoutSetsRepositoryDrizzle implements WorkoutSetsRepository {
+export class WorkoutRepositoryDrizzle implements WorkoutRepository {
   private constructor(private readonly db: DrizzleClient) {}
 
   public static create(db: DrizzleClient) {
-    return new WorkoutSetsRepositoryDrizzle(db);
+    return new WorkoutRepositoryDrizzle(db);
   }
 
-  public async save(aggregate: WorkoutSets): Promise<void> {
-    const rows = aggregate.getSets().map((set) => ({
+  public async save(workout: Workout): Promise<void> {
+    const rows = workout.get().map((set) => ({
+      workoutId: workout.id,
       id: set.id,
-      userId: aggregate.userId,
+      userId: workout.userId,
       exercise: set.exercise,
       reps: set.reps,
       weight: set.weight,

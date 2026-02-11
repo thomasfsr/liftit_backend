@@ -1,7 +1,7 @@
-import { UserRepository } from "../repositories/userRepository";
-import { PasswordHasher } from "../services/passwordHasher";
-import { User } from "../../domain/user/user";
-import { Usecase } from "./usecase";
+import { UserRepository } from "../../repositories/userRepository";
+import { PasswordHasher } from "../../services/passwordHasher";
+import { User } from "../../../domain/user/user";
+import { Usecase } from "../usecase";
 
 export class EmailAlreadyExistsError extends Error {
   constructor(email: string) {

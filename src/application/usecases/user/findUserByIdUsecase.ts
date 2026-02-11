@@ -1,6 +1,6 @@
-import { UserRepository } from "../repositories/userRepository";
-import { User } from "../../domain/user/user";
-import { Usecase } from "./usecase";
+import { UserRepository } from "../../repositories/userRepository";
+import { User } from "../../../domain/user/user";
+import { Usecase } from "../usecase";
 
 export type FindUserByIdInputDto = {
   id: string;
