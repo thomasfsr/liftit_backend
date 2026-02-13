@@ -40,3 +40,11 @@ export const CreateWorkoutSetsInputSchema = t.Object({
     },
   ),
 });
+
+export const RemoveSetsInputSchema = t.Object({
+  setsId: t.Array(
+    t.Object({
+      id: t.String(),
+    }),
+  ),
+});
