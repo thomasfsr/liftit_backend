@@ -1,0 +1,33 @@
+Action	Domain meaning
+Add set	structural change in aggregate
+Remove set	structural change
+Change reps	modify entity state
+Change weight	modify entity state
+Rename	semantic mutation
+
+Real professional APIs follow this
+
+Stripe, Notion, GitHub all do:
+
+POST   /resource/subresource
+PATCH  /resource/subresource/:id
+DELETE /resource/subresource/:id
+
+POST   /workouts
+GET    /workouts/:id
+
+POST   /workouts/:id/sets            → add set
+DELETE /workouts/:id/sets            → remove many sets
+PATCH  /workouts/:id/sets/:setId     → edit reps/weight/name
+
+Key architectural principle
+
+You are not designing endpoints.
+
+You are exposing aggregate capabilities over HTTP.
+
+So the question becomes:
+
+“What can the Workout do?”
+not
+“What fields exist in the database?”

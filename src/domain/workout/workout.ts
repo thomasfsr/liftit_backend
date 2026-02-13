@@ -61,6 +61,7 @@ export class Workout {
     const set = WorkoutSet.create(exercise, reps, weight);
     this.props.sets.push(set);
     this.touch();
+    return set;
   }
 
   public load(sets: WorkoutSet[]) {
@@ -74,7 +75,6 @@ export class Workout {
     if (index === -1) {
       throw new Error("WorkoutSet not found");
     }
-
     this.props.sets.splice(index, 1);
     this.touch();
   }

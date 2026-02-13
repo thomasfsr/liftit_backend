@@ -11,12 +11,17 @@ import {
   CreateWorkoutInputDto,
 } from "../../application/usecases/workout/createWorkoutUsecase";
 import {
-  removeSetsByIdInputDto,
+  AddSetsUsecase,
+  AddSetsInputDto,
+} from "../../application/usecases/workout/addSetsUsecase";
+import {
+  RemoveSetsByIdInputDto,
   RemoveSetsByIdUsecase,
 } from "../../application/usecases/workout/removeSetsByIdUsecase";
 import { CreateUserInputSchema } from "./schemas";
 import { CreateWorkoutSetsInputSchema } from "./schemas";
 import { RemoveSetsInputSchema } from "./schemas";
+import { AddSetsInputSchema } from "./schemas";
 import { BcryptPasswordHasher } from "../utils/passwordHasher";
 import { WorkoutRepositoryDrizzle } from "../repositories/WorkoutRepositoryDrizzle";
 const app = new Elysia()
@@ -59,26 +64,37 @@ const app = new Elysia()
       body: CreateWorkoutSetsInputSchema,
     },
   )
-  .post(
+  .delete(
     "/workouts/:workoutId/sets",
     async ({ params, body }) => {
-      const input: removeSetsByIdInputDto = {
+      const input: RemoveSetsByIdInputDto = {
         workoutId: params.workoutId,
         setsId: body.setsId,
       };
       const repo = WorkoutRepositoryDrizzle.create(db);
       const usecase = RemoveSetsByIdUsecase.remove(repo);
 
-      const result = await usecase.execute({
-        workoutId: input.workoutId,
-        setsId: input.setsId,
-      });
+      const result = await usecase.execute(input);
 
       return result;
     },
     {
       body: RemoveSetsInputSchema,
     },
+  )
+  .post(
+    "/workouts/:workoutId/sets",
+    async ({ params, body }) => {
+      const input: AddSetsInputDto = {
+        workoutId: params.workoutId,
+        sets: body.sets,
+      };
+      const repo = WorkoutRepositoryDrizzle.create(db);
+      const usecase = AddSetsUsecase.create(repo);
+      const result = await usecase.execute(input);
+      return result;
+    },
+    { body: AddSetsInputSchema },
   )
   .listen(3000);
 

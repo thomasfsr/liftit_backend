@@ -48,3 +48,24 @@ export const RemoveSetsInputSchema = t.Object({
     }),
   ),
 });
+
+export const AddSetsInputSchema = t.Object({
+  sets: t.Array(
+    t.Object({
+      exercise: t.String({
+        minLength: 1,
+      }),
+
+      reps: t.Number({
+        minimum: 1,
+      }),
+
+      weight: t.Number({
+        minimum: 0,
+      }),
+    }),
+    {
+      minItems: 1,
+    },
+  ),
+});

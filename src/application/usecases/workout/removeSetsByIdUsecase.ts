@@ -1,22 +1,22 @@
 import { WorkoutRepository } from "../../repositories/workoutRepository";
 import { Usecase } from "../usecase";
 
-export type removeSetsByIdInputDto = {
+export type RemoveSetsByIdInputDto = {
   workoutId: string;
   setsId: {
     id: string;
   }[];
 };
 
-export type removeSetsByIdOutputDto = {
+export type RemoveSetsByIdOutputDto = {
   excludedSetsId: {
     id: string;
   }[];
 };
 
 export class RemoveSetsByIdUsecase implements Usecase<
-  removeSetsByIdInputDto,
-  removeSetsByIdOutputDto
+  RemoveSetsByIdInputDto,
+  RemoveSetsByIdOutputDto
 > {
   constructor(private readonly workoutRepo: WorkoutRepository) {}
 
@@ -25,8 +25,8 @@ export class RemoveSetsByIdUsecase implements Usecase<
   }
 
   public async execute(
-    input: removeSetsByIdInputDto,
-  ): Promise<removeSetsByIdOutputDto> {
+    input: RemoveSetsByIdInputDto,
+  ): Promise<RemoveSetsByIdOutputDto> {
     const workout = await this.workoutRepo.findById(input.workoutId);
     if (!workout) {
       throw Error("Workout session does not exist");
