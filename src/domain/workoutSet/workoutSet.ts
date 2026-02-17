@@ -88,6 +88,34 @@ export class WorkoutSet {
     this.props.weight = weight;
     this.touch();
   }
+  public update(props: {
+    exercise?: string;
+    reps?: number;
+    weight?: number;
+  }): void {
+    if (props.exercise !== undefined) {
+      if (!props.exercise.trim()) {
+        throw new Error("Exercise name cannot be empty");
+      }
+      this.props.exercise = props.exercise;
+    }
+
+    if (props.reps !== undefined) {
+      if (props.reps <= 0) {
+        throw new Error("Reps must be greater than zero");
+      }
+      this.props.reps = props.reps;
+    }
+
+    if (props.weight !== undefined) {
+      if (props.weight < 0) {
+        throw new Error("Weight cannot be negative");
+      }
+      this.props.weight = props.weight;
+    }
+
+    this.touch();
+  }
 
   private touch() {
     this.props.updatedAt = new Date();

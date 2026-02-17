@@ -79,6 +79,30 @@ export class Workout {
     this.touch();
   }
 
+  public updateSets(
+    changes: {
+      id: string;
+      exercise?: string;
+      reps?: number;
+      weight?: number;
+    }[],
+  ): void {
+    for (const change of changes) {
+      const set = this.props.sets.find((s) => s.id === change.id);
+
+      if (!set) {
+        throw new Error(`WorkoutSet ${change.id} not found in this workout`);
+      }
+
+      set.update({
+        exercise: change.exercise,
+        reps: change.reps,
+        weight: change.weight,
+      });
+    }
+
+    this.touch();
+  }
   private touch() {
     this.props.updatedAt = new Date();
   }
