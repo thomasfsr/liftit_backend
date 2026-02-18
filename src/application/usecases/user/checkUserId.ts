@@ -1,3 +1,4 @@
+import { User } from "../../../domain/user/user";
 import { UserRepository } from "../repositories/userRepository";
 import { Usecase } from "../usecase";
 
@@ -14,6 +15,10 @@ export class CheckUserIdUsecase implements Usecase<
   checkUserIdOutputDto
 > {
   constructor(private readonly userRepo: UserRepository) {}
+
+  public static build(userRepo: UserRepository) {
+    return new CheckUserIdUsecase(userRepo);
+  }
 
   public async execute({
     id,

@@ -27,7 +27,7 @@ export class CreateWorkoutUsecase implements Usecase<
     private readonly userRepo: UserRepository,
   ) {}
 
-  public static create(
+  public static build(
     workoutRepository: WorkoutRepository,
     userRepo: UserRepository,
   ) {

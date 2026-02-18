@@ -86,7 +86,7 @@ export class Workout {
       reps?: number;
       weight?: number;
     }[],
-  ): void {
+  ) {
     for (const change of changes) {
       const set = this.props.sets.find((s) => s.id === change.id);
 
@@ -103,6 +103,7 @@ export class Workout {
 
     this.touch();
   }
+
   private touch() {
     this.props.updatedAt = new Date();
   }

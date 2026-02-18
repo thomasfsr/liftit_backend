@@ -69,3 +69,32 @@ export const AddSetsInputSchema = t.Object({
     },
   ),
 });
+
+export const UpdateWorkoutSetsInputSchema = t.Object({
+  id: t.String(),
+  sets: t.Array(
+    t.Object({
+      id: t.String({
+        minLength: 1,
+      }),
+
+      exercise: t.Optional(
+        t.String({
+          minLength: 1,
+        }),
+      ),
+
+      reps: t.Optional(
+        t.Number({
+          minimum: 1,
+        }),
+      ),
+
+      weight: t.Optional(
+        t.Number({
+          minimum: 1,
+        }),
+      ),
+    }),
+  ),
+});

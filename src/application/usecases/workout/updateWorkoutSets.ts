@@ -1,62 +1,48 @@
-import { Workout } from "../../../domain/workout/workout";
 import { WorkoutRepository } from "../../repositories/workoutRepository";
-import { UserRepository } from "../../repositories/userRepository";
 import { Usecase } from "../usecase";
 
 export type UpdateWorkoutSetsInputDto = {
   id: string;
   sets: {
-    exercise: string;
-    reps: number;
-    weight: number;
+    id: string;
+    exercise?: string;
+    reps?: number;
+    weight?: number;
   }[];
 };
 
-export type CreateWorkoutOutputDto = {
-  id: string;
-  userId: string;
-  total: number;
+export type UpdateWorkoutSetsOutputDto = {
+  updatedSets: {
+    id: string;
+  }[];
 };
 
-export class CreateWorkoutUsecase implements Usecase<
-  CreateWorkoutInputDto,
-  CreateWorkoutOutputDto
+export class UpdateWorkoutSetsUsecase implements Usecase<
+  UpdateWorkoutSetsInputDto,
+  UpdateWorkoutSetsOutputDto
 > {
-  constructor(
-    private readonly workoutRepo: WorkoutRepository,
-    private readonly userRepo: UserRepository,
-  ) {}
+  constructor(private readonly workoutRepo: WorkoutRepository) {}
 
-  public static create(
-    workoutRepository: WorkoutRepository,
-    userRepo: UserRepository,
-  ) {
-    return new CreateWorkoutUsecase(workoutRepository, userRepo);
+  public static build(workoutRepository: WorkoutRepository) {
+    return new UpdateWorkoutSetsUsecase(workoutRepository);
   }
 
   public async execute(
-    input: CreateWorkoutInputDto,
-  ): Promise<CreateWorkoutOutputDto> {
-    const user = await this.userRepo.findById(input.userId);
-    if (!user) {
-      throw Error("User does not exist");
+    input: UpdateWorkoutSetsInputDto,
+  ): Promise<UpdateWorkoutSetsOutputDto> {
+    const workout = await this.workoutRepo.findById(input.id);
+
+    if (!workout) {
+      throw new Error("Workout session does not exist");
     }
-    const workout = Workout.create(input.userId);
-
-    for (const set of input.sets) {
-      workout.addSet(set.exercise, set.reps, set.weight);
-    }
-
-    await this.workoutRepo.save(workout);
-
-    return this.presentOutput(workout);
+    workout.updateSets(input.sets);
+    return this.presentOutput(input);
   }
 
-  private presentOutput(workout: Workout): CreateWorkoutOutputDto {
-    return {
-      id: workout.id,
-      userId: workout.userId,
-      total: workout.get().length,
-    };
+  private presentOutput(
+    input: UpdateWorkoutSetsInputDto,
+  ): UpdateWorkoutSetsOutputDto {
+    const updatedSets = input.sets.map((set) => ({ id: set.id }));
+    return { updatedSets };
   }
 }

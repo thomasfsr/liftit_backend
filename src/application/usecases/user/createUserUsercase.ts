@@ -30,7 +30,7 @@ export class CreateUserUsecase implements Usecase<
     private readonly passwordHasher: PasswordHasher,
   ) {}
 
-  public static create(
+  public static build(
     userRepo: UserRepository,
     passwordHasher: PasswordHasher,
   ) {

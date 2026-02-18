@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 export class UserRepositoryDrizzle implements UserRepository {
   private constructor(private readonly db: DrizzleClient) {}
 
-  public static create(db: DrizzleClient) {
+  public static build(db: DrizzleClient) {
     return new UserRepositoryDrizzle(db);
   }
 

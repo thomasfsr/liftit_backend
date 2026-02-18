@@ -1,6 +1,7 @@
 import { UserRepository } from "../../repositories/userRepository";
 import { User } from "../../../domain/user/user";
 import { Usecase } from "../usecase";
+import { FindUserByIdUsecase } from "./checkUserByIdUsecase";
 
 export type FindUserByEmailInputDto = {
   email: string;
@@ -20,6 +21,10 @@ export class FindUserByEmailUsecase implements Usecase<
   FindUserByEmailOutputDto
 > {
   constructor(private readonly userRepo: UserRepository) {}
+
+  public static build(userRepo: UserRepository) {
+    return new FindUserByIdUsecase(userRepo);
+  }
 
   public async execute({
     email,

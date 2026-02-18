@@ -20,7 +20,7 @@ export class RemoveSetsByIdUsecase implements Usecase<
 > {
   constructor(private readonly workoutRepo: WorkoutRepository) {}
 
-  public static remove(workoutRepository: WorkoutRepository) {
+  public static build(workoutRepository: WorkoutRepository) {
     return new RemoveSetsByIdUsecase(workoutRepository);
   }
 

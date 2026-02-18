@@ -8,7 +8,7 @@ import { eq } from "drizzle-orm";
 export class WorkoutRepositoryDrizzle implements WorkoutRepository {
   private constructor(private readonly db: DrizzleClient) {}
 
-  public static create(db: DrizzleClient) {
+  public static build(db: DrizzleClient) {
     return new WorkoutRepositoryDrizzle(db);
   }
 

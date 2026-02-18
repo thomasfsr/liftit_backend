@@ -25,7 +25,7 @@ export class AddSetsUsecase implements Usecase<
 > {
   constructor(private readonly workoutRepo: WorkoutRepository) {}
 
-  public static create(workoutRepository: WorkoutRepository) {
+  public static build(workoutRepository: WorkoutRepository) {
     return new AddSetsUsecase(workoutRepository);
   }
 

@@ -21,6 +21,10 @@ export class FindUserByIdUsecase implements Usecase<
 > {
   constructor(private readonly userRepo: UserRepository) {}
 
+  public static build(userRepo: UserRepository) {
+    return new FindUserByIdUsecase(userRepo);
+  }
+
   public async execute({
     id,
   }: FindUserByIdInputDto): Promise<FindUserByIdOutputDto> {
