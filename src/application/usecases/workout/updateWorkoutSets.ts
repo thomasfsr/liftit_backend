@@ -39,13 +39,6 @@ export class UpdateWorkoutSetsUsecase implements Usecase<
 
     await this.workoutRepo.save(workout);
 
-    return this.presentOutput(input);
-  }
-
-  private presentOutput(
-    input: UpdateWorkoutSetsInputDto,
-  ): UpdateWorkoutSetsOutputDto {
-    const updatedSets = input.sets.map((set) => ({ id: set.id }));
-    return { updatedSets };
+    return { updatedSets: input.sets };
   }
 }

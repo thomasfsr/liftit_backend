@@ -52,6 +52,10 @@ export class Workout {
     return this.props.updatedAt;
   }
 
+  public get sets() {
+    return this.props.sets;
+  }
+
   public get(): readonly WorkoutSet[] {
     return Object.freeze([...this.props.sets]);
   }
