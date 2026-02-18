@@ -36,6 +36,9 @@ export class UpdateWorkoutSetsUsecase implements Usecase<
       throw new Error("Workout session does not exist");
     }
     workout.updateSets(input.sets);
+
+    await this.workoutRepo.save(workout);
+
     return this.presentOutput(input);
   }
 
