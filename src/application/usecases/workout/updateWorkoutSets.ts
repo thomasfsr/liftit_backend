@@ -39,6 +39,6 @@ export class UpdateWorkoutSetsUsecase implements Usecase<
 
     await this.workoutRepo.save(workout);
 
-    return { updatedSets: input.sets };
+    return { updatedSets: input.sets.map((set) => ({ id: set.id })) };
   }
 }
