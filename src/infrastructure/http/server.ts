@@ -1,4 +1,5 @@
 import { Elysia } from "elysia";
+import openapi from "@elysiajs/openapi";
 import { swagger } from "@elysiajs/swagger";
 import { db } from "../db/drizzle";
 import { UserRepositoryDrizzle } from "../repositories/UserRepositoryDrizzle";
@@ -45,6 +46,7 @@ const app = new Elysia()
       },
     }),
   )
+  .use(openapi())
   .post(
     "/user",
     async ({ body }) => {
