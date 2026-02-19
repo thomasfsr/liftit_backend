@@ -13,3 +13,37 @@ bun run dev
 ```
 
 Open http://localhost:3000/ with your browser to see the result.
+  
+.
+└── ./
+    └── src/
+        ├── application/
+        │   ├── repositories/
+        │   │   ├── workoutRepository.ts
+        │   │   └── userRepository.ts
+        │   ├── services/
+        │   │   └── passwordHasher.ts
+        │   └── usecases/
+        │       ├── user/
+        │       │   └── createUserUsecase.ts
+        │       └── workout/
+        │           └── createWorkoutUsecase.ts
+        ├── domain/
+        │   ├── user/
+        │   │   └── user.ts
+        │   ├── workoutSet/
+        │   │   └── workoutSet.ts
+        │   └── workout/
+        │       └── workout.ts
+        └── infrastructure/
+            ├── db/
+            │   ├── drizzle.ts
+            │   └── schemas.ts
+            ├── utils/
+            │   └── passwordHasherBcrypt.ts
+            ├── repositories/
+            │   ├── UserRepositoryDrizzle.ts
+            │   └── WorkoutRepositoryDrizzle.ts
+            └── http/
+                ├── schemas.ts
+                └── server.ts
