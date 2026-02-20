@@ -4,7 +4,7 @@ export type UserProps = {
   lastName: string;
   email: string;
   phone: string;
-  hashedPassword: string;
+  hashedPassword: string | null;
   active: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -20,7 +20,7 @@ export class User {
     lastName: string,
     email: string,
     phone: string,
-    hashedPassword: string,
+    hashedPassword: string | null,
   ): User {
     return new User({
       id: crypto.randomUUID(),
@@ -45,14 +45,14 @@ export class User {
   }
 
   private validate() {
-    if (!this.props.firstName.trim() || !this.props.lastName.trim()) {
-      throw new Error("User name is required");
-    }
+    // if (!this.props.firstName.trim() || !this.props.lastName.trim()) {
+    //   throw new Error("User name is required");
+    // }
 
     if (!this.props.email.trim()) {
       throw new Error("Email is required");
     }
-    if (!this.props.hashedPassword.trim()) {
+    if (this.props.hashedPassword && !this.props.hashedPassword.trim()) {
       throw new Error("Hashed password is required");
     }
   }
@@ -88,7 +88,6 @@ export class User {
   public get updatedAt() {
     return this.props.updatedAt;
   }
-
   public getFullName() {
     return `${this.props.firstName} ${this.props.lastName}`;
   }
@@ -105,5 +104,34 @@ export class User {
 
   private touch() {
     this.props.updatedAt = new Date();
+  }
+
+  public static registerFederated(email: string): User {
+    return new User({
+      id: crypto.randomUUID(),
+      firstName: "",
+      lastName: "",
+      phone: "",
+      email,
+      hashedPassword: null,
+      active: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+  }
+
+  public needsOnboarding(): boolean {
+    return !this.props.firstName || !this.props.phone;
+  }
+
+  public completeProfile(firstName: string, lastName: string, phone: string) {
+    if (!firstName.trim() || !lastName.trim()) {
+      throw new Error("Name required");
+    }
+
+    this.props.firstName = firstName;
+    this.props.lastName = lastName;
+    this.props.phone = phone;
+    this.touch();
   }
 }
