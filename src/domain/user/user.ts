@@ -4,7 +4,7 @@ export type UserProps = {
   lastName: string;
   email: string;
   phone: string;
-  hashedPassword: string | null;
+  hashedPassword: string;
   active: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -20,7 +20,7 @@ export class User {
     lastName: string,
     email: string,
     phone: string,
-    hashedPassword: string | null,
+    hashedPassword: string,
   ): User {
     return new User({
       id: crypto.randomUUID(),
@@ -45,9 +45,9 @@ export class User {
   }
 
   private validate() {
-    // if (!this.props.firstName.trim() || !this.props.lastName.trim()) {
-    //   throw new Error("User name is required");
-    // }
+    if (!this.props.firstName.trim() || !this.props.lastName.trim()) {
+      throw new Error("User name is required");
+    }
 
     if (!this.props.email.trim()) {
       throw new Error("Email is required");
@@ -109,11 +109,11 @@ export class User {
   public static registerFederated(email: string): User {
     return new User({
       id: crypto.randomUUID(),
-      firstName: "",
-      lastName: "",
-      phone: "",
+      firstName: "undefined",
+      lastName: "undefined",
+      phone: "undefined",
       email,
-      hashedPassword: null,
+      hashedPassword: "undefined",
       active: true,
       createdAt: new Date(),
       updatedAt: new Date(),
