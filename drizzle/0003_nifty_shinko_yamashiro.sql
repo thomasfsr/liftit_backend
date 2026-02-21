@@ -1,1 +1,0 @@
-ALTER TABLE "workout_sets" ADD COLUMN "workout_id" uuid NOT NULL;

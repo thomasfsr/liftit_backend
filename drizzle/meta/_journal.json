@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1769973146187,
-      "tag": "0000_bright_xorn",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1769985672076,
-      "tag": "0001_volatile_invisible_woman",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1770387681486,
-      "tag": "0002_misty_master_chief",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1770863413184,
-      "tag": "0003_nifty_shinko_yamashiro",
+      "when": 1771715903658,
+      "tag": "0000_redundant_gorilla_man",
       "breakpoints": true
     }
   ]

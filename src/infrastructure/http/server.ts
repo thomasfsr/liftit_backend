@@ -1,4 +1,4 @@
-import { Elysia } from "elysia";
+import { Elysia, Context } from "elysia";
 import openapi from "@elysiajs/openapi";
 import { swagger } from "@elysiajs/swagger";
 import { db } from "../db/drizzle";
@@ -34,6 +34,22 @@ import {
 
 import { BcryptPasswordHasher } from "../utils/passwordHasher";
 import { WorkoutRepositoryDrizzle } from "../repositories/WorkoutRepositoryDrizzle";
+import { auth } from "../../lib/auth";
+
+export const betterAuthView = async (context: Context) => {
+  const ACCEPTED = ["GET", "POST"];
+
+  if (!ACCEPTED.includes(context.request.method)) {
+    context.set.status = 405;
+    return "Method Not Allowed";
+  }
+  const response = await auth.handler(context.request);
+  context.set.status = response.status;
+  response.headers.forEach((value, key) => {
+    context.set.headers[key] = value;
+  });
+  return response.body;
+};
 
 const app = new Elysia()
   .use(
@@ -121,7 +137,8 @@ const app = new Elysia()
       return result;
     },
     { body: UpdateWorkoutSetsInputSchema },
-  );
+  )
+  .all("/api/auth/*", betterAuthView);
 
 app.listen(3000, () => {
   console.log(
