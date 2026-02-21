@@ -34,6 +34,20 @@ import {
 
 import { BcryptPasswordHasher } from "../utils/passwordHasher";
 import { WorkoutRepositoryDrizzle } from "../repositories/WorkoutRepositoryDrizzle";
+
+import { auth } from "../auth/betterAuth";
+import { mapGoogle } from "../auth/identityMapper";
+import { AuthenticateFederatedUserUsecase } from "../../application/usecases/user/authenticateFederatedUserUsecase";
+import { AuthAccountRepositoryDrizzle } from "../repositories/authAccountRepositoryDrizzle";
+
+// function toHeadersInit(headers: Headers): Record<string, string> {
+//   const result: Record<string, string> = {};
+//   headers.forEach((value, key) => {
+//     result[key] = value;
+//   });
+//   return result;
+// }
+
 const app = new Elysia()
   .use(
     swagger({
@@ -120,9 +134,47 @@ const app = new Elysia()
       return result;
     },
     { body: UpdateWorkoutSetsInputSchema },
-  )
-  .listen(3000);
+  );
 
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,
-);
+// const authApp = new Elysia({ name: "auth" }).all("/*", ({ request }) =>
+//   auth.handler(request),
+// );
+const authApp = new Elysia({ name: "auth" }).all("/*", async (ctx) => {
+  const req = new Request(ctx.request.url, {
+    method: ctx.request.method,
+    headers: ctx.request.headers,
+    body: ctx.request.body,
+    redirect: "manual",
+  });
+
+  return auth.handler(req);
+});
+app.mount("/auth", authApp);
+
+app.get("/auth/bootstrap", async (ctx) => {
+  const session = await auth.api.getSession({
+    headers: Object.fromEntries(ctx.request.headers),
+  });
+
+  if (!session?.user) return ctx.status(401);
+
+  const users = UserRepositoryDrizzle.build(db);
+  const accounts = new AuthAccountRepositoryDrizzle();
+  const authenticate = new AuthenticateFederatedUserUsecase(users, accounts);
+
+  const identity = mapGoogle(session.user);
+  const { user, isNewUser } = await authenticate.execute(identity);
+
+  return {
+    userId: user.id,
+    email: user.email,
+    needsOnboarding: user.needsOnboarding(),
+    isNewUser,
+  };
+});
+
+app.listen(3000, () => {
+  console.log(
+    `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,
+  );
+});

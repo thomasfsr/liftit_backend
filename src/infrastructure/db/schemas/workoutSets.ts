@@ -1,5 +1,5 @@
 import { pgTable, integer, timestamp, text, uuid } from "drizzle-orm/pg-core";
-import { users } from "../schema";
+import { users } from "./users";
 
 export const workoutSets = pgTable("workout_sets", {
   id: uuid("id").primaryKey(),

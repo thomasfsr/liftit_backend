@@ -1,5 +1,5 @@
 import { DrizzleClient } from "../db/drizzle";
-import { workoutSets } from "../db/schema";
+import { workoutSets } from "../db/schemas/workoutSets";
 import { Workout } from "../../domain/workout/workout";
 import { WorkoutSet } from "../../domain/workoutSet/workoutSet";
 import { WorkoutRepository } from "../../application/repositories/workoutRepository";

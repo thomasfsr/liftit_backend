@@ -1,5 +1,5 @@
 import { DrizzleClient } from "../db/drizzle";
-import { users } from "../db/schema";
+import { users } from "../db/schemas";
 import { User } from "../../domain/user/user";
 import { UserRepository } from "../../application/repositories/userRepository";
 import { eq } from "drizzle-orm";
@@ -14,15 +14,15 @@ export class UserRepositoryDrizzle implements UserRepository {
   public async save(user: User): Promise<void> {
     const userData = user.toPersistence();
     await this.db.insert(users).values({
-      id: userData.id,
-      firstName: userData.firstName,
-      lastName: userData.lastName,
-      email: userData.email,
-      phone: userData.phone,
-      hashedPassword: userData.hashedPassword,
-      active: userData.active,
-      createdAt: userData.createdAt,
-      updatedAt: userData.updatedAt,
+      id: userData.id!, // Asserts that this is not null
+      firstName: userData.firstName!,
+      lastName: userData.lastName!,
+      email: userData.email!,
+      phone: userData.phone!,
+      hashedPassword: userData.hashedPassword!,
+      active: userData.active!,
+      createdAt: userData.createdAt!,
+      updatedAt: userData.updatedAt!,
     });
   }
 
