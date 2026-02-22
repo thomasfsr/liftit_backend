@@ -36,19 +36,31 @@ import { BcryptPasswordHasher } from "../utils/passwordHasher";
 import { WorkoutRepositoryDrizzle } from "../repositories/WorkoutRepositoryDrizzle";
 import { auth } from "../../lib/auth";
 
-export const betterAuthView = async (context: Context) => {
-  const ACCEPTED = ["GET", "POST"];
+// export const betterAuthView = async (context: Context) => {
+//   const ACCEPTED = ["GET", "POST"];
+//
+//   if (!ACCEPTED.includes(context.request.method)) {
+//     context.set.status = 405;
+//     return "Method Not Allowed";
+//   }
+//   const response = await auth.handler(context.request);
+//   context.set.status = response.status;
+//   response.headers.forEach((value, key) => {
+//     context.set.headers[key] = value;
+//   });
+//   return response.body;
+// };
 
-  if (!ACCEPTED.includes(context.request.method)) {
-    context.set.status = 405;
-    return "Method Not Allowed";
-  }
+export const betterAuthView = async (context: Context) => {
   const response = await auth.handler(context.request);
+
   context.set.status = response.status;
+
   response.headers.forEach((value, key) => {
     context.set.headers[key] = value;
   });
-  return response.body;
+
+  return await response.text();
 };
 
 const app = new Elysia()
