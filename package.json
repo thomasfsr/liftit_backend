@@ -6,6 +6,7 @@
     "dev": "bun run src/infrastructure/http/server.ts"
   },
   "dependencies": {
+    "@elysiajs/cors": "^1.4.1",
     "@elysiajs/openapi": "^1.4.14",
     "@elysiajs/swagger": "^1.3.1",
     "bcryptjs": "^3.0.3",

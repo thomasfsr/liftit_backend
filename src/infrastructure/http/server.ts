@@ -1,4 +1,5 @@
-import { Elysia, Context } from "elysia";
+import { Elysia } from "elysia";
+import { cors } from "@elysiajs/cors";
 import openapi from "@elysiajs/openapi";
 import { swagger } from "@elysiajs/swagger";
 import { db } from "../db/drizzle";
@@ -36,33 +37,6 @@ import { BcryptPasswordHasher } from "../utils/passwordHasher";
 import { WorkoutRepositoryDrizzle } from "../repositories/WorkoutRepositoryDrizzle";
 import { auth } from "../../lib/auth";
 
-// export const betterAuthView = async (context: Context) => {
-//   const ACCEPTED = ["GET", "POST"];
-//
-//   if (!ACCEPTED.includes(context.request.method)) {
-//     context.set.status = 405;
-//     return "Method Not Allowed";
-//   }
-//   const response = await auth.handler(context.request);
-//   context.set.status = response.status;
-//   response.headers.forEach((value, key) => {
-//     context.set.headers[key] = value;
-//   });
-//   return response.body;
-// };
-
-export const betterAuthView = async (context: Context) => {
-  const response = await auth.handler(context.request);
-
-  context.set.status = response.status;
-
-  response.headers.forEach((value, key) => {
-    context.set.headers[key] = value;
-  });
-
-  return await response.text();
-};
-
 const app = new Elysia()
   .use(
     swagger({
@@ -76,6 +50,13 @@ const app = new Elysia()
     }),
   )
   .use(openapi())
+  .use(
+    cors({
+      origin: "http://localhost:5173",
+      allowedHeaders: ["Content-Type", "Authorization"],
+      credentials: true,
+    }),
+  )
   .post(
     "/user",
     async ({ body }) => {
@@ -150,7 +131,7 @@ const app = new Elysia()
     },
     { body: UpdateWorkoutSetsInputSchema },
   )
-  .all("/api/auth/*", betterAuthView);
+  .mount(auth.handler);
 
 app.listen(3000, () => {
   console.log(
