@@ -73,7 +73,11 @@ const app = new Elysia()
   )
   .post(
     "/workout",
-    async ({ body }) => {
+    async ({ body, request }) => {
+      const session = await auth.api.getSession({ headers: request.headers });
+      if (!session) {
+        throw new Error("Unauthorized");
+      }
       const input: CreateWorkoutInputDto = body;
       const repo = WorkoutRepositoryDrizzle.build(db);
       const userRepo = UserRepositoryDrizzle.build(db);
