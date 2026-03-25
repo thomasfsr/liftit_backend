@@ -12,6 +12,11 @@ export const user = pgTable("user", {
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
+  firstName: text("first_name").notNull(),
+  lastName: text("last_name").notNull(),
+  phone: text("phone").notNull(),
+  isActive: boolean("is_active").default(true),
+  role: text("role", { enum: ["user", "admin"] }).default("user"),
 });
 
 export const session = pgTable(

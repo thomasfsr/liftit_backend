@@ -1,6 +1,12 @@
 To generate te schema in the database based on drizzle.config.ts
 bunx drizzle-kit generate
 bunx drizzle-kit migrate
+
+
+better-auth:
+If there is a change in better-auth tables you should do:
+bunx auth generate
+then you run the two commands above for drizzle to apply those changes.
 to run:
 bun run dev
 (the path was set in package.json)
