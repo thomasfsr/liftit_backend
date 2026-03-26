@@ -15,6 +15,12 @@ export const auth = betterAuth({
     google: {
       clientId: env.GOOGLE_CLIENT_ID as string,
       clientSecret: env.GOOGLE_CLIENT_SECRET as string,
+      mapProfileToUser: (profile) => {
+        return {
+          firstName: profile.given_name,
+          lastName: profile.family_name,
+        };
+      },
     },
   },
   user: {
@@ -29,7 +35,7 @@ export const auth = betterAuth({
       },
       phone: {
         type: "string",
-        required: true,
+        required: false,
       },
       isActive: {
         type: "boolean",
